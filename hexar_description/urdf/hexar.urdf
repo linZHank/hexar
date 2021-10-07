@@ -235,6 +235,45 @@
         </inertial>
     </link>
 
+    <!-- gazebo -->
+    <gazebo reference="chassis">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="left_bracket">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="left_motor">
+        <material>Gazebo/Gold</material>
+    </gazebo>
+
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>1</mu1>
+        <mu2>1</mu2>
+    </gazebo>
+
+    <gazebo reference="right_bracket">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="right_motor">
+        <material>Gazebo/Gold</material>
+    </gazebo>
+
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Black</material>
+        <mu1>1</mu1>
+        <mu2>1</mu2>
+    </gazebo>
+
+    <gazebo reference="caster_wheel">
+        <material>Gazebo/Grey</material>
+        <mu1>0</mu1>
+        <mu2>0</mu2>
+    </gazebo>
+
     <!-- differential_drive_controller plugin -->
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
