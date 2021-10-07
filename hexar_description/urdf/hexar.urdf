@@ -45,7 +45,7 @@
     </link>
 
     <joint name="chassis-caster_wheel" type="fixed">
-        <origin rpy="0 0 0" xyz="0.0802 0 -0.0135"/>
+        <origin rpy="0 0 0" xyz="0.0802 0 -0.0143"/>
         <parent link="chassis"/>
         <child link="caster_wheel"/>
     </joint>
@@ -65,9 +65,9 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.004"/>
+            <mass value="0.0165"/>
             <origin rpy="0 0 0" xyz="0 0 0"/>
-            <inertia ixx="0.000000145161" ixy="0" ixz="0" iyy="0.000000145161" iyz="0" izz="0.000000145161"/>
+            <inertia ixx="0.000001064514" ixy="0" ixz="0" iyy="0.000001064514" iyz="0" izz="0.000001064514"/>
         </inertial>
         <contact>
             <lateral_friction value="0.0"/>
@@ -88,7 +88,7 @@
             <geometry>
                 <box size="0.025 0.052 0.002"/>
             </geometry>
-            <material name="grey"/>
+            <material name="blue"/>
         </visual>
         <collision>
             <geometry>
@@ -96,8 +96,62 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.004"/>
-            <inertia ixx="0.000000145161" ixy="0" ixz="0" iyy="0.000000145161" iyz="0" izz="0.000000145161"/>
+            <mass value="0.0085"/>
+            <inertia ixx="0.000001918167" ixy="0" ixz="0" iyy="0.00000044554167" iyz="0" izz="0.00000235804167"/>
+        </inertial>
+        <contact>
+            <lateral_friction value="0.0"/>
+            <rolling_friction value="0.0"/>
+            <stiffness value="30000"/>
+            <damping value="1000"/>
+        </contact>
+    </link>
+
+    <joint name="left_bracket-left_motor" type="fixed">
+        <origin rpy="1.5707963267948966 0 0" xyz="0 -0.0075 0.0135"/>
+        <parent link="left_bracket"/>
+        <child link="left_motor"/>
+    </joint>
+
+    <link name="left_motor">
+        <visual>
+            <geometry>
+                <cylinder length="0.067" radius="0.0125"/>
+            </geometry>
+            <material name="grey"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.067" radius="0.0125"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.101"/>
+            <inertia ixx="0.000041727729167" ixy="0" ixz="0" iyy="0.000041727729167" iyz="0" izz="0.0007890625"/>
+        </inertial>
+    </link>
+
+    <joint name="chassis-right_bracket" type="fixed">
+        <origin rpy="0 0 0" xyz="-0.0375 0.061 -0.0005"/>
+        <parent link="chassis"/>
+        <child link="right_bracket"/>
+    </joint>
+
+    <link name="right_bracket">
+        <visual>
+            <geometry>
+                <box size="0.025 -0.052 0.002"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.025 0.052 0.002"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.0085"/>
+            <inertia ixx="0.000001918167" ixy="0" ixz="0" iyy="0.00000044554167" iyz="0" izz="0.00000235804167"/>
         </inertial>
         <contact>
             <lateral_friction value="0.0"/>
