@@ -99,12 +99,6 @@
             <mass value="0.0085"/>
             <inertia ixx="0.000001918167" ixy="0" ixz="0" iyy="0.00000044554167" iyz="0" izz="0.00000235804167"/>
         </inertial>
-        <contact>
-            <lateral_friction value="0.0"/>
-            <rolling_friction value="0.0"/>
-            <stiffness value="30000"/>
-            <damping value="1000"/>
-        </contact>
     </link>
 
     <joint name="left_bracket-left_motor" type="fixed">
@@ -165,7 +159,7 @@
     <link name="right_bracket">
         <visual>
             <geometry>
-                <box size="0.025 -0.052 0.002"/>
+                <box size="0.025 0.052 0.002"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -178,12 +172,6 @@
             <mass value="0.0085"/>
             <inertia ixx="0.000001918167" ixy="0" ixz="0" iyy="0.00000044554167" iyz="0" izz="0.00000235804167"/>
         </inertial>
-        <contact>
-            <lateral_friction value="0.0"/>
-            <rolling_friction value="0.0"/>
-            <stiffness value="30000"/>
-            <damping value="1000"/>
-        </contact>
     </link>
 
     <joint name="right_bracket-right_motor" type="fixed">
@@ -235,6 +223,30 @@
         </inertial>
     </link>
 
+    <joint name="chassis-lidar" type="fixed">
+        <origin rpy="1.5707963267948966 0 0" xyz="-0.025 0.038 0.0045"/>
+        <parent link="chassis"/>
+        <child link="lidar"/>
+    </joint>
+
+    <link name="lidar">
+        <visual>
+            <geometry>
+                <mesh filename="package://hexar_description/meshes/rplidar_a1m8.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.055 0.07"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.17"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <inertia ixx="0.00011227083" ixy="0" ixz="0" iyy="0.00021108333" iyz="0" izz="0.00018452083"/>
+        </inertial>
+    </link>
+    
     <!-- gazebo -->
     <gazebo reference="chassis">
         <material>Gazebo/White</material>
