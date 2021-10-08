@@ -223,13 +223,13 @@
         </inertial>
     </link>
 
-    <joint name="chassis-lidar" type="fixed">
+    <joint name="chassis-laser_house" type="fixed">
         <origin rpy="1.5707963267948966 0 0" xyz="-0.025 0.038 0.0045"/>
         <parent link="chassis"/>
-        <child link="lidar"/>
+        <child link="laser_house"/>
     </joint>
 
-    <link name="lidar">
+    <link name="laser_house">
         <visual>
             <geometry>
                 <mesh filename="package://hexar_description/meshes/rplidar_a1m8.dae"/>
@@ -246,6 +246,14 @@
             <inertia ixx="0.00011227083" ixy="0" ixz="0" iyy="0.00021108333" iyz="0" izz="0.00018452083"/>
         </inertial>
     </link>
+
+    <joint name="chassis-sensor" type="fixed">
+        <origin rpy="0 0 0" xyz="0.013 0 0.042"/>
+        <parent link="chassis"/>
+        <child link="sensor"/>
+    </joint>
+
+    <link name="sensor"/>
     
     <!-- gazebo -->
     <gazebo reference="chassis">
@@ -257,11 +265,11 @@
     </gazebo>
 
     <gazebo reference="left_motor">
-        <material>Gazebo/Gold</material>
+        <material>Gazebo/Grey</material>
     </gazebo>
 
     <gazebo reference="left_wheel">
-        <material>Gazebo/Black</material>
+        <material>Gazebo/WhiteGlow</material>
         <mu1>1</mu1>
         <mu2>1</mu2>
     </gazebo>
@@ -271,17 +279,17 @@
     </gazebo>
 
     <gazebo reference="right_motor">
-        <material>Gazebo/Gold</material>
+        <material>Gazebo/Grey</material>
     </gazebo>
 
     <gazebo reference="right_wheel">
-        <material>Gazebo/Black</material>
+        <material>Gazebo/WhiteGlow</material>
         <mu1>1</mu1>
         <mu2>1</mu2>
     </gazebo>
 
     <gazebo reference="caster_wheel">
-        <material>Gazebo/Grey</material>
+        <material>Gazebo/DarkGrey</material>
         <mu1>0</mu1>
         <mu2>0</mu2>
     </gazebo>
@@ -302,6 +310,34 @@
             <odometryFrame>odom</odometryFrame>
             <robotBaseFrame>chassis</robotBaseFrame>
         </plugin>
+    </gazebo>
+    
+    <gazebo reference="sensor">
+        <material>Gazebo/FlatBlack</material>
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>4000</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.1415926</min_angle>
+                        <max_angle>3.1415926</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.15</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>sensor</frameName>
+            </plugin>
+        </sensor>
     </gazebo>
 
 
