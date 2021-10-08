@@ -300,18 +300,24 @@
     <!-- differential_drive_controller plugin -->
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-            <legacyMode>false</legacyMode>
-            <alwaysOn>true</alwaysOn>
-            <updateRate>100</updateRate>
+            <updateRate>100</updateRate> 
             <leftJoint>left_motor-left_wheel</leftJoint>
             <rightJoint>right_motor-right_wheel</rightJoint>
             <wheelSeparation>0.197</wheelSeparation>
             <wheelDiameter>0.08</wheelDiameter>
-            <wheelTorque>1</wheelTorque>
+            <wheelTorque>7</wheelTorque>
+            <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+            <wheelAcceleration>1.0</wheelAcceleration>
             <commandTopic>cmd_vel</commandTopic>
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <robotBaseFrame>chassis</robotBaseFrame>
+            <odometrySource>1</odometrySource>
+            <publishWheelTF>false</publishWheelTF>
+            <publishOdom>true</publishOdom>
+            <publishWheelJointState>true</publishWheelJointState>
+            <legacyMode>false</legacyMode>
+            <alwaysOn>true</alwaysOn>
         </plugin>
     </gazebo>
     
