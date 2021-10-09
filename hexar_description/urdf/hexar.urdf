@@ -27,7 +27,7 @@
         <color rgba="1.0 1.0 1.0 1.0"/>
     </material>
 
-    <link name="chassis">
+    <link name="base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -41,15 +41,34 @@
                 <cylinder length="0.009" radius="0.1"/>
             </geometry>
         </collision>
+    </link>
+
+    <joint name="base_link-base_footprint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 -0.027"/>
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+    </joint>
+    
+    <!-- Base footprint is on the ground under the robot -->
+    <link name="base_footprint"/>
+
+    <joint name="base_link-base_inertial" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="base_inertial"/>
+    </joint>
+    
+    <!-- Inertial link stores the robot's inertial information -->
+    <link name="base_inertial">
         <inertial>
             <mass value="0.1"/>
             <inertia ixx="0.000250675" ixy="0" ixz="0" iyy="0.000250675" iyz="0" izz="0.0005"/>
         </inertial>
     </link>
 
-    <joint name="chassis-caster_wheel" type="fixed">
+    <joint name="base_link-caster_wheel" type="fixed">
         <origin rpy="0 0 0" xyz="0.0802 0 -0.0143"/>
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="caster_wheel"/>
     </joint>
 
@@ -80,9 +99,9 @@
         </contact>
     </link>
     
-    <joint name="chassis-left_bracket" type="fixed">
+    <joint name="base_link-left_bracket" type="fixed">
         <origin rpy="0 0 0" xyz="-0.0375 0.061 -0.0005"/>
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="left_bracket"/>
     </joint>
 
@@ -153,9 +172,9 @@
         </inertial>
     </link>
 
-    <joint name="chassis-right_bracket" type="fixed">
+    <joint name="base_link-right_bracket" type="fixed">
         <origin rpy="0 0 0" xyz="-0.0375 -0.061 -0.0005"/>
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="right_bracket"/>
     </joint>
 
@@ -226,9 +245,9 @@
         </inertial>
     </link>
 
-    <joint name="chassis-laser_house" type="fixed">
+    <joint name="base_link-laser_house" type="fixed">
         <origin rpy="1.5707963267948966 0 0" xyz="-0.025 0.038 0.0045"/>
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="laser_house"/>
     </joint>
 
@@ -250,16 +269,16 @@
         </inertial>
     </link>
 
-    <joint name="chassis-sensor" type="fixed">
+    <joint name="base_link-sensor" type="fixed">
         <origin rpy="0 0 0" xyz="0.013 0 0.042"/>
-        <parent link="chassis"/>
+        <parent link="base_link"/>
         <child link="sensor"/>
     </joint>
 
     <link name="sensor"/>
     
     <!-- gazebo -->
-    <gazebo reference="chassis">
+    <gazebo reference="base_link">
         <material>Gazebo/White</material>
     </gazebo>
 
@@ -311,7 +330,7 @@
             <commandTopic>cmd_vel</commandTopic>
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>chassis</robotBaseFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
             <odometrySource>1</odometrySource>
             <publishWheelTF>false</publishWheelTF>
             <publishOdom>true</publishOdom>
@@ -330,10 +349,10 @@
             <ray>
                 <scan>
                     <horizontal>
-                        <samples>4000</samples>
+                        <samples>1000</samples>
                         <resolution>1</resolution>
-                        <min_angle>-3.1415926</min_angle>
-                        <max_angle>3.1415926</max_angle>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.141</max_angle>
                     </horizontal>
                 </scan>
                 <range>
@@ -343,7 +362,7 @@
                 </range>
             </ray>
             <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-                <topicName>/scan</topicName>
+                <topicName>/laser/scan</topicName>
                 <frameName>sensor</frameName>
             </plugin>
         </sensor>
