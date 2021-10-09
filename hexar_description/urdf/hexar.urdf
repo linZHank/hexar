@@ -330,7 +330,7 @@
             <commandTopic>cmd_vel</commandTopic>
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>base_footprint</robotBaseFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
             <odometrySource>1</odometrySource>
             <publishWheelTF>false</publishWheelTF>
             <publishOdom>true</publishOdom>
@@ -351,8 +351,8 @@
                     <horizontal>
                         <samples>1000</samples>
                         <resolution>1</resolution>
-                        <min_angle>-3.14</min_angle>
-                        <max_angle>3.141</max_angle>
+                        <min_angle>-3.1415926</min_angle>
+                        <max_angle>3.1415926</max_angle>
                     </horizontal>
                 </scan>
                 <range>
@@ -362,7 +362,7 @@
                 </range>
             </ray>
             <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-                <topicName>/laser/scan</topicName>
+                <topicName>/scan</topicName>
                 <frameName>sensor</frameName>
             </plugin>
         </sensor>
