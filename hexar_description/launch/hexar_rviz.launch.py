@@ -67,7 +67,7 @@ def generate_launch_description():
         name="rviz2",
         output="screen",
         arguments=["-d", LaunchConfiguration("rvizconfig")],
-    )
+    ) # NEED MANUALLY SET "Reliability Policy" to "Best Effort"
 
     spawn_entity = Node(
         package="gazebo_ros",

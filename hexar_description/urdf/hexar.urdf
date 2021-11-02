@@ -254,7 +254,7 @@
     <link name="lidar_house">
         <visual>
             <geometry>
-                <mesh filename="package://hexar_description/meshes/rplidar_a1m8.dae"/>
+                <mesh filename="file://$(find hexar_description)/meshes/rplidar_a1m8.dae"/>
             </geometry>
         </visual>
         <collision>
@@ -342,7 +342,8 @@
 
     <gazebo reference="lidar_sensor">
         <!-- Visuals / Collisions omitted for this example -->
-        <sensor type="gpu_ray" name="head_rplidar_sensor">
+        <sensor type="ray" name="head_rplidar_sensor">
+            <always_on>true</always_on>
             <visualize>true</visualize>
             <update_rate>10</update_rate>
             <ray>
@@ -363,19 +364,21 @@
                 <noise>
                     <type>gaussian</type>
                     <mean>0.0</mean>
-                    <stddev>0.01</stddev>
+                    <stddev>0.005</stddev>
                 </noise>
             </ray>
-            <plugin name="gazebo_ros_head_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
+            <plugin name="laser_scan" filename="libgazebo_ros_ray_sensor.so">
                 <!-- Change namespace and output topic so published topic is /hexar/laser/scan -->
                 <ros>
                     <namespace>/hexar/laser</namespace>
-                    <argument>~/out:=scan</argument>
+                    <!-- <argument>~/out:=scan</argument> -->
+                    <remapping>~/out:=scan</remapping>
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>
-                </plugin>
-            </sensor>
-        </gazebo>
+                <frame_name>lidar_sensor</frame_name>
+            </plugin>
+        </sensor>
+    </gazebo>
 
 
 </robot>
