@@ -66,13 +66,13 @@
         </inertial>
     </link>
 
-    <joint name="base_link-caster_wheel" type="fixed">
+    <joint name="base_link-caster_ball" type="fixed">
         <origin rpy="0 0 0" xyz="0.0802 0 -0.0143"/>
         <parent link="base_link"/>
-        <child link="caster_wheel"/>
+        <child link="caster_ball"/>
     </joint>
 
-    <link name="caster_wheel">
+    <link name="caster_ball">
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -245,13 +245,13 @@
         </inertial>
     </link>
 
-    <joint name="base_link-laser_house" type="fixed">
+    <joint name="base_link-lidar_house" type="fixed">
         <origin rpy="1.5707963267948966 0 0" xyz="-0.025 0.038 0.0045"/>
         <parent link="base_link"/>
-        <child link="laser_house"/>
+        <child link="lidar_house"/>
     </joint>
 
-    <link name="laser_house">
+    <link name="lidar_house">
         <visual>
             <geometry>
                 <mesh filename="package://hexar_description/meshes/rplidar_a1m8.dae"/>
@@ -269,13 +269,13 @@
         </inertial>
     </link>
 
-    <joint name="base_link-sensor" type="fixed">
+    <joint name="base_link-lidar_sensor" type="fixed">
         <origin rpy="0 0 0" xyz="0.013 0 0.042"/>
         <parent link="base_link"/>
-        <child link="sensor"/>
+        <child link="lidar_sensor"/>
     </joint>
 
-    <link name="sensor"/>
+    <link name="lidar_sensor"/>
     
     <!-- gazebo -->
     <gazebo reference="base_link">
@@ -310,7 +310,7 @@
         <mu2>1</mu2>
     </gazebo>
 
-    <gazebo reference="caster_wheel">
+    <gazebo reference="caster_ball">
         <material>Gazebo/DarkGrey</material>
         <mu1>0</mu1>
         <mu2>0</mu2>
@@ -367,6 +367,42 @@
             <!-- </plugin> -->
         <!-- </sensor> -->
     <!-- </gazebo> -->
+    <gazebo reference="lidar_sensor">
+        <!-- Visuals / Collisions omitted for this example -->
+        <sensor type="gpu_ray" name="head_rplidar_sensor">
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>2000</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.1415926</min_angle>
+                        <max_angle>3.1415926</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.15</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <!-- Using gazebo's noise instead of plugin's -->
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_head_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
+                <!-- Change namespace and output topic so published topic is /rrbot/laser/scan -->
+                <ros>
+                    <namespace>/roundr/laser</namespace>
+                    <argument>~/out:=scan</argument>
+                </ros>
+                <output_type>sensor_msgs/LaserScan</output_type>
+                </plugin>
+            </sensor>
+        </gazebo>
 
 
 </robot>
