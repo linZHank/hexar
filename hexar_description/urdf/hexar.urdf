@@ -316,57 +316,30 @@
         <mu2>0</mu2>
     </gazebo>
 
-    <!-- [> differential_drive_controller plugin <] -->
-    <!-- <gazebo> -->
-        <!-- <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so"> -->
-            <!-- <updateRate>100</updateRate>  -->
-            <!-- <leftJoint>left_motor-left_wheel</leftJoint> -->
-            <!-- <rightJoint>right_motor-right_wheel</rightJoint> -->
-            <!-- <wheelSeparation>0.197</wheelSeparation> -->
-            <!-- <wheelDiameter>0.08</wheelDiameter> -->
-            <!-- <wheelTorque>7</wheelTorque> -->
-            <!-- [> Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 <] -->
-            <!-- <wheelAcceleration>1.0</wheelAcceleration> -->
-            <!-- <commandTopic>cmd_vel</commandTopic> -->
-            <!-- <odometryTopic>odom</odometryTopic> -->
-            <!-- <odometryFrame>odom</odometryFrame> -->
-            <!-- <robotBaseFrame>base_link</robotBaseFrame> -->
-            <!-- <odometrySource>1</odometrySource> -->
-            <!-- <publishWheelTF>false</publishWheelTF> -->
-            <!-- <publishOdom>true</publishOdom> -->
-            <!-- <publishWheelJointState>true</publishWheelJointState> -->
-            <!-- <legacyMode>false</legacyMode> -->
-            <!-- <alwaysOn>true</alwaysOn> -->
-        <!-- </plugin> -->
-    <!-- </gazebo> -->
-    <!--  -->
-    <!-- <gazebo reference="sensor"> -->
-        <!-- <material>Gazebo/FlatBlack</material> -->
-        <!-- <sensor type="gpu_ray" name="head_rplidar_sensor"> -->
-            <!-- <pose>0 0 0 0 0 0</pose> -->
-            <!-- <visualize>true</visualize> -->
-            <!-- <update_rate>10</update_rate> -->
-            <!-- <ray> -->
-                <!-- <scan> -->
-                    <!-- <horizontal> -->
-                        <!-- <samples>1000</samples> -->
-                        <!-- <resolution>1</resolution> -->
-                        <!-- <min_angle>-3.1415926</min_angle> -->
-                        <!-- <max_angle>3.1415926</max_angle> -->
-                    <!-- </horizontal> -->
-                <!-- </scan> -->
-                <!-- <range> -->
-                    <!-- <min>0.15</min> -->
-                    <!-- <max>12.0</max> -->
-                    <!-- <resolution>0.01</resolution> -->
-                <!-- </range> -->
-            <!-- </ray> -->
-            <!-- <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so"> -->
-                <!-- <topicName>/scan</topicName> -->
-                <!-- <frameName>sensor</frameName> -->
-            <!-- </plugin> -->
-        <!-- </sensor> -->
-    <!-- </gazebo> -->
+    <gazebo>
+        <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+            <ros>
+                <namespace>/hexar</namespace>
+            </ros>
+            <update_rate>100</update_rate>
+            <!-- wheels -->
+            <left_joint>left_motor-left_wheel</left_joint>
+            <right_joint>right_motor-right_wheel</right_joint>
+            <!-- kinematics -->
+            <wheel_separation>0.197</wheel_separation>
+            <wheel_diameter>0.08</wheel_diameter>
+            <!-- limits -->
+            <max_wheel_torque>0.8924</max_wheel_torque>
+            <max_wheel_acceleration>1.0</max_wheel_acceleration>
+            <!-- output -->
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_link</robot_base_frame>
+        </plugin>
+    </gazebo>
+
     <gazebo reference="lidar_sensor">
         <!-- Visuals / Collisions omitted for this example -->
         <sensor type="gpu_ray" name="head_rplidar_sensor">
@@ -394,9 +367,9 @@
                 </noise>
             </ray>
             <plugin name="gazebo_ros_head_lidar_controller" filename="libgazebo_ros_ray_sensor.so">
-                <!-- Change namespace and output topic so published topic is /rrbot/laser/scan -->
+                <!-- Change namespace and output topic so published topic is /hexar/laser/scan -->
                 <ros>
-                    <namespace>/roundr/laser</namespace>
+                    <namespace>/hexar/laser</namespace>
                     <argument>~/out:=scan</argument>
                 </ros>
                 <output_type>sensor_msgs/LaserScan</output_type>

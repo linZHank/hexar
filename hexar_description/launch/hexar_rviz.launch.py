@@ -31,6 +31,12 @@ def generate_launch_description():
         default_value=default_rviz_config_path,
         description="Absolute path to rviz config file",
     )
+    time_arg = DeclareLaunchArgument(
+        name="use_sim_time",
+        default_value=LaunchConfiguration('use_sim_time', default='true'),
+        description="Use simulation (Gazebo) clock if true",
+    )
+
 
     robot_description = ParameterValue(
         Command(["xacro ", LaunchConfiguration("model")]), value_type=str
@@ -49,11 +55,11 @@ def generate_launch_description():
         condition=UnlessCondition(LaunchConfiguration("gui")),
     )
 
-    joint_state_publisher_gui_node = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        condition=IfCondition(LaunchConfiguration("gui")),
-    )
+    #  joint_state_publisher_gui_node = Node(
+        #  package="joint_state_publisher_gui",
+        #  executable="joint_state_publisher_gui",
+        #  condition=IfCondition(LaunchConfiguration("gui")),
+    #  )
 
     rviz_node = Node(
         package="rviz2",
@@ -63,29 +69,30 @@ def generate_launch_description():
         arguments=["-d", LaunchConfiguration("rvizconfig")],
     )
 
-    #  spawn_entity = Node(
-        #  package="gazebo_ros",
-        #  executable="spawn_entity.py",
-        #  arguments=[
-            #  "-entity", "roundr",
-            #  "-topic", "robot_description",
-            #  "-x", "0",
-            #  "-y", "0",
-            #  "-z", "0"
-        #  ],
-        #  output="screen",
-    #  )
+    spawn_entity = Node(
+        package="gazebo_ros",
+        executable="spawn_entity.py",
+        arguments=[
+            "-entity", "hexar",
+            "-topic", "robot_description",
+            "-x", "0",
+            "-y", "0",
+            "-z", "0.1"
+        ],
+        output="screen",
+    )
 
     return LaunchDescription(
         [
             gui_arg,
             model_arg,
             rviz_arg,
-            #  ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
+            time_arg,
+            ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world_path], output='screen'),
             joint_state_publisher_node,
-            joint_state_publisher_gui_node,
+            #  joint_state_publisher_gui_node,
             robot_state_publisher_node,
-            #  spawn_entity,
+            spawn_entity,
             rviz_node,
         ]
     )
